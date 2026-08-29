@@ -1,13 +1,23 @@
-# 番茄免费小说（红果免费短剧、红果免费漫剧） AdGuard Home 拦截规则
+# 番茄免费小说 AdGuard Home 拦截规则
 
 > 基于真实流量分析，精准拦截番茄免费小说（com.dragon.read）的埋点、广告、设备指纹等非必要请求，保留正常阅读、听书、短剧功能。
-> 数据包来源说明：
-> 1、使用GitHub上的fqnovel-adrules项目中的规则导入至Adguard安卓端；
-> 2、笔者在使用规程中发现能够拦截番茄、红果系的广告，然后长时间使用app后导出事件数据，整理总结而来。
-> Adguard安卓端所使用拦截广告项目：
-> 名称：fqnovel-adrules
-> 地址：https://github.com/changzhaoCZ/fqnovel-adrules
-> 注意：请手机端直接使用fqnovel-adrules
+
+## 📖 数据来源
+
+> **数据包来源说明：**
+>
+> 1. 使用 GitHub 上的 [fqnovel-adrules](https://github.com/changzhaoCZ/fqnovel-adrules) 项目中的规则导入至 AdGuard 安卓端；
+> 2. 笔者在使用过程中发现能够拦截番茄、红果系的广告，然后长时间使用 App 后导出事件数据，整理总结而来。
+
+### AdGuard 安卓端所使用拦截广告项目
+
+| 项目 | 说明 |
+|------|------|
+| **名称** | fqnovel-adrules |
+| **地址** | https://github.com/changzhaoCZ/fqnovel-adrules |
+| **适用平台** | Android（AdGuard App） |
+
+> ⚠️ **注意：手机端请直接使用 [fqnovel-adrules](https://github.com/changzhaoCZ/fqnovel-adrules)**，本项目（AdGuard Home 规则）基于其流量分析数据转换而来，适用于路由器/家庭网络的 DNS 级过滤。
 
 ## 📊 拦截效果
 
@@ -35,7 +45,7 @@
 
 ### 方式一：通过 AdGuard Home Web 界面添加
 
-1. 打开 AdGuard Home 管理页面
+1. 打开 AdGuard Home 管理页面（默认 `http://192.168.1.1:3000`）
 2. 进入 **过滤 → DNS 拦截**
 3. 点击 **添加拦截规则**
 4. 粘贴 `fanqienovel.txt` 中 **拦截规则** 部分（`! =====` 分隔线之间的内容）
