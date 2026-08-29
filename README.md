@@ -1,6 +1,6 @@
 # 番茄免费小说 AdGuard Home 拦截规则
 
-> 基于真实流量分析，精准拦截番茄免费小说（com.dragon.read）的埋点、广告、设备指纹等非必要请求，保留正常阅读、听书、短剧功能。
+> 基于真实流量分析，精准拦截番茄免费小说（com.dragon.read）的埋点、广告、设备指纹等非必要请求，保留正常阅读、听书、短剧功能。部分白名单规则源自于[fqnovel-adrules](https://github.com/changzhaoCZ/fqnovel-adrules)
 
 ## 📖 数据来源
 
