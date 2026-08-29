@@ -1,0 +1,105 @@
+! Title: 番茄免费小说 AdGuard Home 拦截规则
+! Description: 基于真实流量分析，拦截番茄免费小说的埋点、广告、设备指纹等非必要请求
+! Version: 1.0.0
+! LastModified: 2026-08-29
+! Homepage: https://github.com/gitlawyercan/fanqienovel-adguardhome-rules
+! License: MIT
+! Source: 红果短剧_拦截分析报告（10,000 条事件，41 分钟采样）
+!
+! 本规则适用于 AdGuard Home（DNS 层过滤）
+! 注意：不包含 $app= 修饰符，因为 AdGuard Home 不支持按应用包名过滤
+! 如果使用手机 AdGuard App，建议配合 fqnovel-adrules 项目使用更精准的规则
+!
+! ============================================================
+! 一、埋点 / 日志上报（拦截 87.7% 的流量）
+! ============================================================
+
+! fqnovel.com 埋点域名（占 DNS 拦截的 82.6%）
+||*-applog*.fqnovel.com^
+||mon11-misc-lq.fqnovel.com^
+
+! 百度统计埋点
+||dig.bdurl.net^
+
+! 字节跳动数据同步
+||bsync3-normal-lq.zijieapi.com^
+
+! ============================================================
+! 二、设备指纹 / 风控（拦截 5.0%）
+! ============================================================
+
+! 字节跳动 SDK 指纹采集
+||mssdk*.zijieapi.com^
+||tnc3-alisc1.bytedance.com^
+||tnc*.zijieapi.com^
+||saveu5-normal-lq.zijieapi.com^
+||polaris*-normal-*.zijieapi.com^
+
+! 设备 ID 服务
+||id6.me^
+
+! 字节跳动风控接口
+||timon.zijieapi.com^
+||vcs.zijieapi.com^
+||mon.zijieapi.com^
+
+! ============================================================
+! 三、广告投放（拦截 1.4%）
+! ============================================================
+
+||ads*-normal*.zijieapi.com^
+||*-item.ecombdimg.com^
+||*-aio.ecombdimg.com^
+
+! ============================================================
+! 四、统计 SDK（拦截 0.1%）
+! ============================================================
+
+||feedback-c.zijieapi.com^
+||monsetting.toutiao.com^
+||is.snssdk.com^
+
+! ============================================================
+! 五、白名单（正常功能放行）
+! ============================================================
+
+! 听书 TTS 语音（必须放行）
+@@||*-fq-tts.fqnovelvod.com^
+
+! 阅读视频 / 短剧视频（必须放行）
+@@||v*-reading-video.fqnovelvod.com^
+
+! 核心 API（必须放行）
+@@||api*-normal.fqnovel.com^
+@@||api*-normal-sinfonline*.fqnovel.com^
+@@||api*-sinfnormal.fqnovel.com^
+
+! 静态资源（必须放行）
+@@||lf*-reading.fqnovelstatic.com^
+@@||lf-fe.fqnovelstatic.com^
+
+! 阅读器图片（必须放行）
+@@||p*-reading-private.fqnovel.com^
+@@||p*-reading-sign.fqnovelpic.com^
+
+! 漫画 / 出版读物图片（可选，放行后可正常显示封面）
+@@||p*-novel1-sign.byteimg.com^
+@@||p*-novel-sign.byteimg.com^
+
+! 完整排行榜（可选，放行后可查看完整榜单）
+@@||lf-normal-gr-sourcecdn.bytegecko.com^
+
+! 金币福利页面（可选）
+@@||lf-sourcecdn-tos.bytegecko.com^
+
+! 抖音账号登录（可选，放行后可用抖音账号登录）
+@@||security.snssdk.com^
+
+! 信息提示（可选）
+@@||reading.snssdk.com^
+
+! 内容频道（可选）
+@@||ichannel.snssdk.com^
+
+! 评论区（可选，放行后可正常加载评论）
+@@||tnc*-*.zijieapi.com^
