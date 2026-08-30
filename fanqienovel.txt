@@ -1,105 +1,205 @@
-! Title: 番茄免费小说 AdGuard Home 拦截规则
-! Description: 基于真实流量分析，拦截番茄免费小说的埋点、广告、设备指纹等非必要请求
-! Version: 1.0.0
-! LastModified: 2026-08-29
+! Title: 番茄免费小说 / 红果短剧 AdGuard Home 拦截规则
+! Description: 基于 50,000 条事件（5 批次数据）的实测分析，拦截埋点、广告、设备指纹等非必要请求
+! Version: 2.1.0
+! LastModified: 2026-08-30
 ! Homepage: https://github.com/gitlawyercan/fanqienovel-adguardhome-rules
 ! License: MIT
-! Source: 红果短剧_拦截分析报告（10,000 条事件，41 分钟采样）
 !
-! 本规则适用于 AdGuard Home（DNS 层过滤）
-! 注意：不包含 $app= 修饰符，因为 AdGuard Home 不支持按应用包名过滤
-! 如果使用手机 AdGuard App，建议配合 fqnovel-adrules 项目使用更精准的规则
+! 适用范围：番茄免费小说（com.dragon.read）+ 红果免费短剧（com.phoenix.read）
+! 本规则适用于 AdGuard Home（DNS 层过滤），不包含 $app= 修饰符
+!
+! ⚠️ 重要提示：以下域名使用了 Certificate Pinning，会拒绝 AdGuard 的 HTTPS 证书
+!    UNKNOWN_CA 域名：ecombdapi.com, ads*.zijieapi.com, gecko*.zijieapi.com,
+!    chengzijianzhan.com, ugsdk.cn, p*-ad-sign.byteimg.com, p*-developer-sign.bytemaimg.com
+!    → DNS 拦截有效（推荐），HTTPS 过滤无效（会报 UNKNOWN_CA 错误）
+!    → 不要将这些域名加入 HTTPS 排除列表！
 !
 ! ============================================================
-! 一、埋点 / 日志上报（拦截 87.7% 的流量）
+! 一、埋点 / 日志上报
 ! ============================================================
 
-! fqnovel.com 埋点域名（占 DNS 拦截的 82.6%）
+! fqnovel.com 埋点（UNKNOWN_CA: log0/log5/log3/rtlog 不影响，DNS 拦截即可）
 ||*-applog*.fqnovel.com^
 ||mon11-misc-lq.fqnovel.com^
+||mon3-misc-lq.fqnovel.com^
+||rtlog*-applog-lq.fqnovel.com^
 
-! 百度统计埋点
+! 百度埋点（UNKNOWN_CA: dig.bdurl.net 有 33 次，DNS 拦截即可）
 ||dig.bdurl.net^
 
 ! 字节跳动数据同步
 ||bsync3-normal-lq.zijieapi.com^
 
+! A/B 测试
+||abtest3-misc-lq.zijieapi.com^
+||abtestvm.bytedance.com^
+
 ! ============================================================
-! 二、设备指纹 / 风控（拦截 5.0%）
+! 二、设备指纹 / 风控
 ! ============================================================
 
-! 字节跳动 SDK 指纹采集
 ||mssdk*.zijieapi.com^
 ||tnc3-alisc1.bytedance.com^
 ||tnc*.zijieapi.com^
 ||saveu5-normal-lq.zijieapi.com^
 ||polaris*-normal-*.zijieapi.com^
-
-! 设备 ID 服务
 ||id6.me^
-
-! 字节跳动风控接口
 ||timon.zijieapi.com^
 ||vcs.zijieapi.com^
 ||mon.zijieapi.com^
+||mon.snssdk.com^
+||mon.toutiaocloud.net^
+||mon.toutiaocloud.com^
 
 ! ============================================================
-! 三、广告投放（拦截 1.4%）
+! 三、广告投放（⚠️ UNKNOWN_CA：这些域名有证书固定，DNS 拦截有效）
 ! ============================================================
 
+! 广告接口
 ||ads*-normal*.zijieapi.com^
-||*-item.ecombdimg.com^
-||*-aio.ecombdimg.com^
+
+! 广告图片（UNKNOWN_CA: p*-ad-sign 有证书固定）
+||p*-ad-sign.byteimg.com^
+||p*-developer-sign.bytemaimg.com^
+
+! 电商广告（UNKNOWN_CA: ecombdapi 有证书固定，DNS 拦截即可）
+||ecom*-normal-lq.ecombdapi.com^
+||ec*-core-lq.ecombdapi.com^
+||isaas*-normal-lq.ecombdapi.com^
+
+! 广告追踪（UNKNOWN_CA: chengzijianzhan.com 有证书固定）
+||www.chengzijianzhan.com^
+
+! 广告窗口（UNKNOWN_CA: ugsdk.cn 有证书固定）
+||praisewindow-sinfonlinea.ugsdk.cn^
+||zlink.ugsdk.cn^
+
+! 小游戏广告
+||minigame*-normal-lq.zijieapi.com^
 
 ! ============================================================
-! 四、统计 SDK（拦截 0.1%）
+! 四、统计 SDK / 埋点
 ! ============================================================
 
 ||feedback-c.zijieapi.com^
 ||monsetting.toutiao.com^
 ||is.snssdk.com^
+||is-lq.snssdk.com^
+||i-lq.snssdk.com^
+||reading-lq.snssdk.com^
 
 ! ============================================================
-! 五、白名单（正常功能放行）
+! 五、直播 / IM 推送（可能影响直播功能）
 ! ============================================================
 
-! 听书 TTS 语音（必须放行）
+||webcast*-open-lq.douyin.com^
+||aweme.snssdk.com^
+||frontier-aweme.snssdk.com^
+||effect.snssdk.com^
+||ecomuser.snssdk.com^
+||im-open.douyin.com^
+||imapi5-oth-lq.zijieapi.com^
+
+! ============================================================
+! 六、电商 / 小游戏
+! ============================================================
+
+||gecko*-xh.zijieapi.com^
+||gecko*-lq.zijieapi.com^
+
+! ============================================================
+! 七、直播 CDN（pull-* 流媒体，可选拦截）
+! ============================================================
+
+||pull-*.douyincdn.com^
+||pull-*.douyinliving.com^
+||pull-*.flive.douyincdn.com^
+||pull-*.flive.ixigua.com^
+||pull-*.ixigua.com^
+
+! ============================================================
+! 八、其他字节系追踪
+! ============================================================
+
+||www.bytedance.com^
+||pitaya.bytedance.com^
+||seclink.bytedance.com^
+||tosv.byted.org^
+||mcs.zijieapi.com^
+||ma.zijieapi.com^
+||thanos.zijieapi.com^
+||life-service-open.zijieapi.com^
+||whoami.akamai.net^
+||abtestvm.bytedance.com^
+
+! ============================================================
+! 白名单（正常功能放行）
+! ============================================================
+
+! --- 听书 TTS 语音 ---
 @@||*-fq-tts.fqnovelvod.com^
 
-! 阅读视频 / 短剧视频（必须放行）
-@@||v*-reading-video.fqnovelvod.com^
+! --- 短剧/阅读视频（视频 CDN）---
+@@||v*-reading-video*.qznovelvod.com^
+@@||v*-reading-videocdn*.qznovelvod.com^
+@@||n98-v-readingvideo.qznovelvod.com^
+@@||v*-reading-video*.fqnovelvod.com^
 
-! 核心 API（必须放行）
+! --- 核心 API（⚠️ UNKNOWN_CA: api*-normal 有证书固定，DNS 拦截无效，需白名单放行）---
 @@||api*-normal.fqnovel.com^
 @@||api*-normal-sinfonline*.fqnovel.com^
 @@||api*-sinfnormal.fqnovel.com^
+@@||api*-normal-lq.fqnovel.com^
+@@||frontier*-toutiao-lq.fqnovel.com^
 
-! 静态资源（必须放行）
+! --- 静态资源（⚠️ UNKNOWN_CA: lf-fe/lf3-reading 有证书固定）---
 @@||lf*-reading.fqnovelstatic.com^
+@@||lf*-reading.fqnovelpic.com^
 @@||lf-fe.fqnovelstatic.com^
 
-! 阅读器图片（必须放行）
+! --- 阅读器图片（⚠️ UNKNOWN_CA: p*-reading-sign 有证书固定）---
 @@||p*-reading-private.fqnovel.com^
 @@||p*-reading-sign.fqnovelpic.com^
+@@||p*-reading-sign.douyinpic.com^
+@@||p*-webcast.douyinpic.com^
+@@||p*.douyinpic.com^
 
-! 漫画 / 出版读物图片（可选，放行后可正常显示封面）
+! --- 漫画 / 出版读物图片（⚠️ UNKNOWN_CA: byteimg/novel 有证书固定）---
 @@||p*-novel1-sign.byteimg.com^
 @@||p*-novel-sign.byteimg.com^
+@@||p*-novel.byteimg.com^
 
-! 完整排行榜（可选，放行后可查看完整榜单）
+! --- 排行榜 / 福利页面 ---
 @@||lf-normal-gr-sourcecdn.bytegecko.com^
-
-! 金币福利页面（可选）
 @@||lf-sourcecdn-tos.bytegecko.com^
+@@||lf-dy-sourcecdn-tos.bytegecko.com^
 
-! 抖音账号登录（可选，放行后可用抖音账号登录）
+! --- 抖音账号登录 ---
 @@||security.snssdk.com^
 
-! 信息提示（可选）
+! --- 信息提示 / 内容频道 ---
 @@||reading.snssdk.com^
-
-! 内容频道（可选）
 @@||ichannel.snssdk.com^
 
-! 评论区（可选，放行后可正常加载评论）
+! --- 评论区 ---
 @@||tnc*-*.zijieapi.com^
+
+! --- 听书有声内容 ---
+@@||*-novelapp.fqnovelvod.com^
+
+! --- VOD 设置（视频播放配置）---
+@@||vod-settings.bytedanceapi.com^
+
+! --- 直播流（如需看直播）---
+@@||pull-*.douyincdn.com^
+@@||pull-*.douyinliving.com^
+@@||pull-*.flive.douyincdn.com^
+@@||pull-*.ixigua.com^
+
+! --- CDN 静态资源 ---
+@@||lf3-static.bytednsdoc.com^
+@@||lf3-beecdn.bytetos.com^
+@@||lf-csp-*.bytetos.com^
+@@||*.bytetos.com^
+@@||*.bytegoofy.com^
+@@||*.bytemaimg.com^
