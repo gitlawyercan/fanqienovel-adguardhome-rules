@@ -1,7 +1,7 @@
 ! Title: 番茄免费小说 / 红果短剧 AdGuard Home 拦截规则
-! Description: 基于 50,000 条事件（5 批次数据）的实测分析，拦截埋点、广告、设备指纹等非必要请求
-! Version: 2.1.0
-! LastModified: 2026-08-30
+! Description: 基于 60,000+ 条事件（多批次实测）的统计，拦截埋点、广告、设备指纹等非必要请求
+! Version: 2.2.0
+! LastModified: 2026-10-05
 ! Homepage: https://github.com/gitlawyercan/fanqienovel-adguardhome-rules
 ! License: MIT
 !
@@ -29,6 +29,9 @@
 
 ! 字节跳动数据同步
 ||bsync3-normal-lq.zijieapi.com^
+
+! 字节 IM 接口（v2.2.0 新增：实测出现 imapi-oth.zijieapi.com / imapi5-oth-lq.zijieapi.com）
+||imapi*-oth*.zijieapi.com^
 
 ! A/B 测试
 ||abtest3-misc-lq.zijieapi.com^
@@ -76,6 +79,14 @@
 
 ! 小游戏广告
 ||minigame*-normal-lq.zijieapi.com^
+
+! v2.2.0 新增：第三方统计 / 广告 SDK（comfylink 数据通道）
+!   实测子域：sdktt.data.comfylink.com（3 次）、cf-gl.comfylink.com（2 次）
+||*.comfylink.com^
+
+! v2.2.0 新增：Adobe Scene7 广告素材 CDN（scene7.omarea.com）
+!   ⚠️ 若出现图片/素材缺失，删除本条即可
+||scene7.omarea.com^
 
 ! ============================================================
 ! 四、统计 SDK / 埋点
@@ -182,7 +193,9 @@
 @@||ichannel.snssdk.com^
 
 ! --- 评论区 ---
-@@||tnc*-*.zijieapi.com^
+! v2.2.0 修正：原规则 @@||tnc*-*.zijieapi.com^ 会把风控域名 tnc0-alisc1 / tnc0-aliec2
+!   一并放行（实测各 24/15 次），导致风控拦截失效。已用 $~ 排除这两个域名。
+@@||tnc*-*.zijieapi.com^$~tnc0-alisc1,tnc0-aliec2
 
 ! --- 听书有声内容 ---
 @@||*-novelapp.fqnovelvod.com^
@@ -195,6 +208,15 @@
 @@||pull-*.douyinliving.com^
 @@||pull-*.flive.douyincdn.com^
 @@||pull-*.ixigua.com^
+
+! v2.2.0 新增：视频 CDN 调度节点（vegslb.com = 字节 SLB 边缘调度，随机前缀子域）
+!   实测 3 个随机子域各 6 次，均为短剧视频流量，必须放行
+@@||*.vegslb.com^
+
+! v2.2.0 新增：电商图片 CDN（ecombdimg.com）
+!   注意区分：ecombdapi.com 是广告接口（已拦截），ecombdimg.com 是图片 CDN（放行）
+!   实测子域：p26-item.ecombdimg.com、p3-aio.ecombdimg.com
+@@||*.ecombdimg.com^
 
 ! --- CDN 静态资源 ---
 @@||lf3-static.bytednsdoc.com^
