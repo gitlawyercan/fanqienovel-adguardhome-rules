@@ -88,7 +88,8 @@
 3. 点击 **添加拦截规则**
 4. 粘贴 `fanqienovel.txt` 中 **拦截规则** 部分（`! =====` 分隔线之间的内容）
 5. 进入 **过滤 → DNS 白名单**
-6. 粘贴 `fanqienovel.txt` 中 **白名单** 部分
+6. 粘贴 `fanqienovel.txt` 中 **白名单** 部分（以 `@@` 开头的行）
+   > 提示：白名单条目均在文件末尾「白名单」段落内
 
 ### 方式二：远程订阅（推荐）
 
@@ -117,8 +118,8 @@ lf3-reading.fqnovelpic.com
 
 ### 拦截规则（按优先级）
 
-| 规则 | 说明 | UNKNOWN_CA |
-|------|------|-----------|
+| 规则 | 说明 | v2.2.0 |
+|------|------|--------|
 | `\|\|*-applog*.fqnovel.com^` | fqnovel 埋点上报 | ❌ |
 | `\|\|dig.bdurl.net^` | 百度埋点 | ⚠️ 有 |
 | `\|\|mssdk*.zijieapi.com^` | 设备指纹 SDK | ❌ |
@@ -128,6 +129,9 @@ lf3-reading.fqnovelpic.com
 | `\|\|ec*-core-lq.ecombdapi.com^` | 电商广告核心 | ⚠️ 有 |
 | `\|\|gecko*-*.zijieapi.com^` | 电商 SDK | ❌ |
 | `\|\|pull-*.douyincdn.com^` | 直播 CDN | 可选拦截 |
+| `\|\|imapi*-oth*.zijieapi.com^` | 字节 IM 接口（新增：`imapi-oth` / `imapi5-oth-lq`） | ❌ |
+| `\|\|*.comfylink.com^` | 第三方统计 SDK（新增：sdktt.data / cf-gl） | ❌ |
+| `\|\|scene7.omarea.com^` | Adobe Scene7 广告素材（新增，⚠️ 图片缺失可删） | ❌ |
 
 ### 白名单规则
 
@@ -140,7 +144,9 @@ lf3-reading.fqnovelpic.com
 | `@@\|\|p*-reading-sign.*.com^` | 阅读器图片 | ⚠️ 有 | ⭐ 必须 |
 | `@@\|\|p*-novel*.byteimg.com^` | 漫画图片 | ⚠️ 有 | ⭐ 必须 |
 | `@@\|\|*.douyinpic.com^` | 图片 CDN | ⚠️ 有 | ⭐ 必须 |
-| `@@\|\|tnc*-*.zijieapi.com^` | 评论区 | ❌ | 可选 |
+| `@@\|\|*.vegslb.com^` | 视频 CDN 调度节点（新增：随机前缀子域，短剧视频） | ❌ | ⭐ 必须 |
+| `@@\|\|*.ecombdimg.com^` | 电商图片 CDN（新增，与广告接口 ecombdapi 区分） | ⚠️ 有 | ⭐ 必须 |
+| `@@\|\|tnc*-*.zijieapi.com^$~tnc0-alisc1,tnc0-aliec2` | 评论区（**v2.2.0 修正**：用 `$~` 排除风控域名，否则评论区白名单会把 42 次风控请求一并放行） | ❌ | 可选 |
 | `@@\|\|security.snssdk.com^` | 抖音登录 | ❌ | 可选 |
 | `@@\|\|pull-*.douyincdn.com^` | 直播流 | ❌ | 可选 |
 
